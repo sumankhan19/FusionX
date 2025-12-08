@@ -19,7 +19,7 @@ This combination enables high-throughput, detail-rich analysis without the need 
 
 ## Features
 
-- 🤖 **AI-Powered Analysis**: Leverages fine-tuned Segment Anything Model (CellX) for precise cell boundary detection
+- 🤖 **AI-Powered Analysis**: Leverages CellX for precise cell boundary detection
 - 🔬 **Multi-Nucleated Cell Detection**: Accurately segments both mono- and multi-nucleated cells
 - 📊 **Comprehensive Metrics**: Provides fusion index, nuclei per cell, cell size, and shape parameters
 - ⚡ **High-Throughput**: Dramatically increases analysis speed compared to manual quantification
@@ -111,116 +111,12 @@ FusionX relies on the following core packages:
 
 ## Quick Start
 
-```python
-import fusionx
-
-# Load your microscopy images
-# - Membrane channel: stained cell boundaries
-# - Nuclear channel: stained nuclei
-
-# Run FusionX analysis
-results = fusionx.analyze(
-    membrane_image='path/to/membrane_channel.tif',
-    nuclear_image='path/to/nuclear_channel.tif'
-)
-
-# Extract fusion metrics
-fusion_index = results.get_fusion_index()
-nuclei_per_cell = results.get_nuclei_per_cell()
-cell_parameters = results.get_cell_parameters()  # size, shape, etc.
-
-print(f"Fusion Index: {fusion_index:.2%}")
-print(f"Average nuclei per cell: {nuclei_per_cell:.2f}")
-```
-
 ### What You Need
 
 FusionX works with standard fluorescence microscopy images containing:
 1. **Membrane staining** (e.g., CellMask, WGA, or similar dyes)
 2. **Nuclear staining** (e.g., DAPI, Hoechst, or similar dyes)
 
-## Usage Examples
-
-### Example 1: Analyzing Viral Fusogen-Induced Fusion
-
-```python
-import fusionx
-import matplotlib.pyplot as plt
-
-# Analyze cells expressing viral fusogens
-results = fusionx.analyze(
-    membrane_image='fusogen_treated_membrane.tif',
-    nuclear_image='fusogen_treated_nuclei.tif',
-    output_dir='results/fusogen_experiment'
-)
-
-# Get detailed fusion metrics
-fusion_data = results.get_detailed_metrics()
-
-# Visualize results
-fusionx.plot_fusion_distribution(fusion_data)
-plt.savefig('fusion_distribution.png')
-```
-
-### Example 2: Myogenic Differentiation Time Course
-
-```python
-import fusionx
-import pandas as pd
-
-timepoints = [0, 24, 48, 72, 96]  # hours
-fusion_indices = []
-
-for tp in timepoints:
-    results = fusionx.analyze(
-        membrane_image=f'differentiation_day{tp}_membrane.tif',
-        nuclear_image=f'differentiation_day{tp}_nuclei.tif'
-    )
-    fusion_indices.append(results.get_fusion_index())
-
-# Track fusion progression over time
-df = pd.DataFrame({
-    'Timepoint (hours)': timepoints,
-    'Fusion Index': fusion_indices
-})
-
-print(df)
-```
-
-### Example 3: Batch Processing Multiple Samples
-
-```python
-import fusionx
-from pathlib import Path
-
-# Process all images in a directory
-image_dir = Path('experimental_data')
-results_all = []
-
-for membrane_img in image_dir.glob('*_membrane.tif'):
-    nuclear_img = membrane_img.parent / membrane_img.name.replace('_membrane', '_nuclei')
-    
-    results = fusionx.analyze(
-        membrane_image=str(membrane_img),
-        nuclear_image=str(nuclear_img)
-    )
-    
-    results_all.append({
-        'sample': membrane_img.stem,
-        'fusion_index': results.get_fusion_index(),
-        'total_cells': results.get_cell_count(),
-        'multinucleated_cells': results.get_multinucleated_count()
-    })
-
-# Export to CSV
-import pandas as pd
-df = pd.DataFrame(results_all)
-df.to_csv('fusion_analysis_summary.csv', index=False)
-```
-
-## Documentation
-
-For detailed documentation, please visit [link to full documentation].
 
 ### Key Components
 
