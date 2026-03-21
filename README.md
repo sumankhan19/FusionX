@@ -1,5 +1,9 @@
 # Welcome to FusionX Wiki
 
+> **[Home](Home)** · [Installation Guide](Installation) · [Prerequisites](Prerequisites) · [Tutorial](Tutorial) · [FAQ](FAQ)
+
+---
+
 **FusionX** is an AI-powered image analysis pipeline for automated and robust quantification of cell-to-cell fusion.
 
 ---
